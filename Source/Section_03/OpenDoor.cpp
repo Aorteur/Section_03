@@ -20,7 +20,16 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	// Find the owning actor
+	AActor* Owner = GetOwner();
+
+	// Create a rotator
+	FRotator NewRotation = FRotator(0.0f, -30.0f, 0.0f);
+
+	// Set the door rotation
+	Owner->SetActorRotation(NewRotation);
+
+	UE_LOG(LogTemp, Warning, TEXT("Rotation: %s"), *Owner->GetActorRotation().ToString());
 	
 }
 
