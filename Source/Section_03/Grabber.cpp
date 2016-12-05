@@ -22,11 +22,41 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-
-	FString ObjectName = GetOwner()->GetName();
-
-	UE_LOG(LogTemp, Warning, TEXT("Grabber ready on %s."), *ObjectName);
 	
+	UE_LOG(LogTemp, Warning, TEXT("Grabber ready on %s."), *(GetOwner()->GetName()));
+	
+	// look for attached component
+
+	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (!PhysicsHandle)
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Physics Component on %s."), *(GetOwner()->GetName()));
+
+	}
+
+	InputControl = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputControl)
+	{ 
+		// We can has input
+		UE_LOG(LogTemp, Warning, TEXT("Input Component Found."));
+		// Bind the input
+
+		InputControl->BindAction("Grab", EInputEvent::IE_Pressed, this, &UGrabber::Grab);
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Input Component on %s."), *(GetOwner()->GetName()));
+
+	}
+
+}
+
+
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Grab Pressed."));
+
 }
 
 

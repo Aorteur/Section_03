@@ -24,5 +24,10 @@ public:
 private:
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.0f;
-		
+	
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	UInputComponent* InputControl = nullptr;
+
+	// Ray-cast and grab the moveble object
+	void Grab();
 };
