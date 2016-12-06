@@ -30,4 +30,14 @@ private:
 
 	// Ray-cast and grab the moveble object
 	void Grab();
+
+	void Release();
+
+	// Find attached Physics Component
+	void FindPhysicsHandleComponent();
+
+	// Setup (assumed) attached input component
+	void SetupInputComponent();
+
+	const FHitResult GetFirstPhysicsBodyInReach();
 };
