@@ -27,7 +27,7 @@ void UGrabber::BeginPlay()
 void UGrabber::FindPhysicsHandleComponent()
 {
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (!PhysicsHandle)
+	if (PhysicsHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No Physics Component on %s."), *(GetOwner()->GetName()));
 	}
@@ -76,6 +76,8 @@ void UGrabber::Grab()
 // Release the held component
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
+
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->ReleaseComponent();
