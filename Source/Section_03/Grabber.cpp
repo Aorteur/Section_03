@@ -63,6 +63,7 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 void UGrabber::Grab()
 {
 	// Line trace and see if we reach any actors with collision body set
+//	GetFirstInteractiveObjectInReach();
 	auto HitResult = GetFirstPhysicsBodyInReach();
 	auto ComponentToGrab = HitResult.GetComponent();
 	auto ActorHit = HitResult.GetActor();
