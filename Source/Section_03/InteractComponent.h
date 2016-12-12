@@ -3,17 +3,18 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "Grabber.generated.h"
+#include "InteractComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class SECTION_03_API UGrabber : public UActorComponent
+class SECTION_03_API UInteractComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UGrabber();
+	UInteractComponent();
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -21,27 +22,31 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+	UPROPERTY(BlueprintAssignable)
+	FInteractEvent OnActivate;
+
 private:
 	UPROPERTY(EditAnywhere)
-	float Reach = 150.0f;
-	
+	float InteractDistance = 100.0f;
+
+	bool IsHoldingObject = false;
+
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputControl = nullptr;
 
-	// Ray-cast and grab the moveble object
-	void Grab();
-
-	void Release();
+	// Check for an input component and set it up
+	void SetupInputComponent();
 
 	// Find attached Physics Component
 	void FindPhysicsHandleComponent();
 
-	// Setup (assumed) attached input component
-	void SetupInputComponent();
-
-	const FHitResult GetFirstPhysicsBodyInReach();
-	const FHitResult GetFirstInteractiveObjectInReach();
-
+	// Set the line for activation of objects
 	FVector GetReachLineStart();
 	FVector GetReachLineEnd();
+
+	void Interact();
+	void Release();
+
+	const FHitResult GetFirstPhysicsBodyInReach();
+	const FHitResult GetFirstInteractiveObjectInReach();	
 };

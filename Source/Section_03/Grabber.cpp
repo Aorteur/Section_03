@@ -72,6 +72,8 @@ void UGrabber::Grab()
 		// TODO If we hit object, attach a physics handle
 		PhysicsHandle->GrabComponentAtLocationWithRotation(ComponentToGrab, NAME_None, ComponentToGrab->GetOwner()->GetActorLocation(), ComponentToGrab->GetOwner()->GetActorRotation());
 	}
+
+	auto TempResult = GetFirstInteractiveObjectInReach();
 }
 
 // Release the held component
@@ -97,6 +99,37 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
 		TraceParameters
 	);
+	return HitResult;
+}
+
+const FHitResult UGrabber::GetFirstInteractiveObjectInReach()
+{
+	FHitResult HitResult;
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+	UE_LOG(LogTemp, Error, TEXT("Attempting Object Trace"));
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT HitResult,
+		GetReachLineStart(),
+		GetReachLineEnd(),
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldDynamic),
+		TraceParameters
+	);
+
+	AActor* ActorHit = HitResult.GetActor();
+	if (ActorHit)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Object: %s"), *(ActorHit->GetName()));
+
+	}
+	
+	/* FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT HitResult,
+		GetReachLineStart(),
+		GetReachLineEnd(),
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic
+	);
+	*/
 	return HitResult;
 }
 
