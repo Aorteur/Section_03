@@ -2,6 +2,7 @@
 
 #include "Section_03.h"
 #include "InteractComponent.h"
+#include "SwitchComponent.h"
 
 #define OUT
 
@@ -104,7 +105,10 @@ void UInteractComponent::Interact()
 		}
 		else
 		{
-			// Activate the object
+			auto MySwitchComponent = ActorHit->FindComponentByClass<USwitchComponent>();
+			if (MySwitchComponent) {
+				MySwitchComponent->SwitchToggle();
+			}
 		}
 
 	}

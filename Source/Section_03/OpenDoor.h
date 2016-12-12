@@ -34,9 +34,14 @@ private:
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate = nullptr;
 
+	UPROPERTY(EditAnywhere)
+	AActor* LinkedSwitch = nullptr;
+
 	AActor* Owner = nullptr;
 
 	// Returns Total Mass in Kilograms
 	float GetTotalMassOfActorsOnPlate();
+	bool GetSwitchStatus();
+
 
 };

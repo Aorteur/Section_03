@@ -5,8 +5,6 @@
 #include "Components/ActorComponent.h"
 #include "InteractComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractEvent);
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SECTION_03_API UInteractComponent : public UActorComponent
 {
@@ -21,9 +19,6 @@ public:
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
-
-	UPROPERTY(BlueprintAssignable)
-	FInteractEvent OnActivate;
 
 private:
 	UPROPERTY(EditAnywhere)

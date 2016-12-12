@@ -2,6 +2,7 @@
 
 #include "Section_03.h"
 #include "OpenDoor.h"
+#include "SwitchComponent.h"
 
 #define OUT
 
@@ -37,7 +38,7 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	// Poll the trigger volume every frame
-	if (GetTotalMassOfActorsOnPlate() > TriggerMass)
+	if ((GetTotalMassOfActorsOnPlate() > TriggerMass) || (GetSwitchStatus()))
 	{
 		OnOpen.Broadcast();
 	} 
@@ -64,7 +65,18 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 			UE_LOG(LogTemp, Warning, TEXT("Overlap %s"), *((OverlapActor)->GetName()));
 		}
 	}
-
 	return TotalMass;
+}
+
+bool UOpenDoor::GetSwitchStatus()
+{
+	if (LinkedSwitch)
+	{
+		auto MySwitchComponent = LinkedSwitch->FindComponentByClass<USwitchComponent>();
+		if (MySwitchComponent) {
+			return (MySwitchComponent->IsSwitchPowered());
+		}
+	}
+	return false;
 }
 
