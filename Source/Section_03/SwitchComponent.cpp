@@ -25,19 +25,50 @@ void USwitchComponent::BeginPlay()
 void USwitchComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+
+	if ((SwitchPowered) && (SwitchDelayTime >= 0.0f))
+	{
+		if (GetWorld()->GetTimeSeconds() - LastTimeSwitchSet > SwitchDelayTime)
+		{
+			SwitchOff();
+		}
+	}
 }
 
 void USwitchComponent::SwitchOn()
 {
-	SwitchPowered = true;
+	if (SwitchDelayTime >= 0.0f)
+	{
+		LastTimeSwitchSet = GetWorld()->GetTimeSeconds();		
+	}
+	if (TimesSwitched != MaxTimesSwitched)
+	{
+		if (MaxTimesSwitched > 0) 
+		{
+			TimesSwitched++;
+		}
+		SwitchPowered = true;
+	}
+
+
 }
 
 void USwitchComponent::SwitchOff()
 {
-	SwitchPowered = false;
+	if (TimesSwitched != MaxTimesSwitched)
+	{
+		SwitchPowered = false;
+	}
 }
 
 void USwitchComponent::SwitchToggle()
 {
-	SwitchPowered = !SwitchPowered;
+	if (SwitchPowered) 
+	{
+		SwitchOff();
+	}
+	else
+	{
+		SwitchOn();
+	}
 }

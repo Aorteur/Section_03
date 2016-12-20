@@ -26,6 +26,14 @@ public:
 	void SwitchToggle();
 	bool IsSwitchPowered();
 
+	UPROPERTY(EditAnywhere)
+	float SwitchDelayTime = -1.0f;
+	float LastTimeSwitchSet = 0.0f;
+
+	UPROPERTY(EditAnywhere)
+	int32 MaxTimesSwitched = -1;
+	int32 TimesSwitched = 0;
+
 private:
 	bool SwitchPowered = false;
 	

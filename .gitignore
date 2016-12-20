@@ -2,6 +2,8 @@ Binaries/
 Build/
 DerivedDataCache/
 Content/StarterContent/
+Content/KiteDemo/
+Content/Cinematics/
 Intermediate/
 Saved/
 *.VC.db
